@@ -272,5 +272,56 @@ require('lazy').setup(require 'kickstart.plugins.index', {
   },
 })
 
+-- Function to install all mason packages
+
+-- Function to install all mason packages
+function MasonInstallAll()
+  -- Initialize mason.nvim
+  require('mason').setup()
+
+  -- Load the list of Mason packages from the external file
+  local mason_packages = require 'mason_packages'
+
+  -- Check if mason-registry is loaded
+  local mason_registry = require 'mason-registry'
+  if not mason_registry then
+    print 'Mason registry is not ready.'
+    return
+  end
+
+  -- Create a list of packages that are not installed
+  local packages_to_install = {}
+
+  -- Find all packages that need to be installed
+  for _, package in ipairs(mason_packages) do
+    local pkg = mason_registry.get_package(package)
+    if not pkg:is_installed() then
+      table.insert(packages_to_install, package)
+    end
+  end
+
+  -- If there are packages to install, show Mason UI with the installation progress
+  if #packages_to_install > 0 then
+    -- Start the installation with Mason's UI overlay
+    require('mason.ui').install(packages_to_install)
+
+    -- Install missing packages
+    for _, package in ipairs(packages_to_install) do
+      local pkg = mason_registry.get_package(package)
+      pkg:install() -- This will trigger Mason's progress UI
+    end
+
+    -- Confirm after installation
+    print 'Mason packages installation complete!'
+  else
+    print 'All Mason packages are already installed.'
+  end
+end
+
+-- Optional: Bind the function to a command in Neovim
+vim.api.nvim_create_user_command('MasonInstallAll', MasonInstallAll, {})
+
+-- Optional: Bind the function to a keybinding (e.g., <leader>mi)
+vim.api.nvim_set_keymap('n', '<leader>mi', ':MasonInstallAll<CR>', { noremap = true, silent = true })
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
