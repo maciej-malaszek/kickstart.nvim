@@ -4,7 +4,7 @@ return {
   priority = 1000, -- load before other UI plugins
   opts = {
     flavour = 'macchiato', -- latte, frappe, macchiato, mocha
-    transparent_background = false,
+    transparent_background = true,
     auto_integrations = true,
     term_colors = true,
     dim_inactive = {
