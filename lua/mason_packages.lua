@@ -4,5 +4,6 @@ return {
   -- 'lua-language-server',
   'typescript-language-server',
   'csharp-language-server',
+  'roslyn',
   -- Add other packages here
 }

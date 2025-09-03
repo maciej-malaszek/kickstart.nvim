@@ -22,7 +22,7 @@ return {
   -- Highlight, edit, and navigate code
   require 'kickstart.plugins.nvim-treesitter',
 
-  -- require 'kickstart.plugins.debug',
+  require 'kickstart.plugins.debug',
   -- require 'kickstart.plugins.indent_line',
   -- require 'kickstart.plugins.lint',
 
