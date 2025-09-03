@@ -277,8 +277,9 @@ require('lazy').setup(require 'kickstart.plugins.index', {
 -- Function to install all mason packages
 function MasonInstallAll()
   -- Initialize mason.nvim
-  require('mason').setup()
 
+  local ui = require 'mason.ui'
+  ui.open()
   -- Load the list of Mason packages from the external file
   local mason_packages = require 'mason_packages'
 
@@ -302,14 +303,16 @@ function MasonInstallAll()
 
   -- If there are packages to install, show Mason UI with the installation progress
   if #packages_to_install > 0 then
-    -- Start the installation with Mason's UI overlay
-    require('mason.ui').install(packages_to_install)
-
-    -- Install missing packages
-    for _, package in ipairs(packages_to_install) do
-      local pkg = mason_registry.get_package(package)
-      pkg:install() -- This will trigger Mason's progress UI
-    end
+    vim.defer_fn(function()
+      mason_registry.refresh(function()
+        for _, name in ipairs(mason_packages) do
+          local ok, pkg = pcall(mason_registry.get_package, name)
+          if ok and not pkg:is_installed() then
+            pkg:install()
+          end
+        end
+      end)
+    end, 100) -- 100ms delay
 
     -- Confirm after installation
     print 'Mason packages installation complete!'
