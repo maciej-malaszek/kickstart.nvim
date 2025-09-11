@@ -1,33 +1,17 @@
--- debug.lua
-local function rebuild_project(co, path)
-  local spinner = require('easy-dotnet.ui-modules.spinner').new()
-  spinner:start_spinner 'Building'
-  vim.fn.jobstart(string.format('dotnet build %s', path), {
-    on_exit = function(_, return_code)
-      if return_code == 0 then
-        spinner:stop_spinner 'Built successfully'
-      else
-        spinner:stop_spinner('Build failed with exit code ' .. return_code, vim.log.levels.ERROR)
-        error 'Build failed'
-      end
-      coroutine.resume(co)
-    end,
-  })
-  coroutine.yield()
-end
---
--- Shows how to use the DAP plugin to debug your code.
---
--- Primarily focused on configuring the debugger for Go, but can
--- be extended to other languages as well. That's why it's called
--- kickstart.nvim and not kitchen-sink.nvim ;)
-
 return {
   'mfussenegger/nvim-dap',
+  dependencies = {
+    'nvim-neotest/nvim-nio',
+    'rcarriga/nvim-dap-ui',
+    'williamboman/mason.nvim',
+    'jay-babu/mason-nvim-dap.nvim',
+    'rouge8/neotest-rust',
+    'nvim-neotest/neotest',
+  },
   config = function()
-    local dap = require 'dap'
+    local dap, dapui = require 'dap', require 'dapui'
 
-    -- Keymaps for controlling the debugger
+    -- === General Keymaps ===
     vim.keymap.set('n', 'q', function()
       dap.terminate()
       dap.clear_breakpoints()
@@ -44,11 +28,25 @@ return {
     vim.keymap.set('n', '<leader>dj', dap.down, { desc = 'Go down stack frame' })
     vim.keymap.set('n', '<leader>dk', dap.up, { desc = 'Go up stack frame' })
 
-    -- .NET specific setup using `easy-dotnet`
-    require('easy-dotnet.netcoredbg').register_dap_variables_viewer() -- special variables viewer specific for .NET
+    dapui.setup()
+
+    -- Auto open/close
+    dap.listeners.after.event_initialized['dapui_config'] = function()
+      dapui.open()
+    end
+    dap.listeners.before.event_terminated['dapui_config'] = function()
+      dapui.close()
+    end
+    dap.listeners.before.event_exited['dapui_config'] = function()
+      dapui.close()
+    end
+
+    -- Keymap to toggle manually
+    vim.keymap.set('n', '<leader>du', dapui.toggle, { desc = 'Toggle DAP UI' })
+    -- === .NET setup (your existing config) ===
+    require('easy-dotnet.netcoredbg').register_dap_variables_viewer()
     local dotnet = require 'easy-dotnet'
     local debug_dll = nil
-
     local function ensure_dll()
       if debug_dll ~= nil then
         return debug_dll
@@ -66,8 +64,7 @@ return {
           request = 'launch',
           env = function()
             local dll = ensure_dll()
-            local vars = dotnet.get_environment_variables(dll.project_name, dll.relative_project_path)
-            return vars or nil
+            return dotnet.get_environment_variables(dll.project_name, dll.relative_project_path) or nil
           end,
           program = function()
             local dll = ensure_dll()
@@ -76,8 +73,7 @@ return {
             return dll.relative_dll_path
           end,
           cwd = function()
-            local dll = ensure_dll()
-            return dll.relative_project_path
+            return ensure_dll().relative_project_path
           end,
         },
         {
@@ -92,7 +88,6 @@ return {
       }
     end
 
-    -- Reset debug_dll after each terminated session
     dap.listeners.before['event_terminated']['easy-dotnet'] = function()
       debug_dll = nil
     end
@@ -102,5 +97,51 @@ return {
       command = 'netcoredbg',
       args = { '--interpreter=vscode' },
     }
+
+    -- === Rust setup (new) ===
+    require('mason-nvim-dap').setup {
+      ensure_installed = { 'codelldb' },
+      automatic_installation = true,
+    }
+
+    dap.adapters.codelldb = {
+      type = 'server',
+      port = '${port}',
+      executable = {
+        command = vim.fn.stdpath 'data' .. '/mason/bin/codelldb',
+        args = { '--port', '${port}' },
+      },
+    }
+
+    dap.configurations.rust = {
+      {
+        name = 'Debug executable',
+        type = 'codelldb',
+        request = 'launch',
+        program = function()
+          vim.fn.jobstart 'cargo build'
+          return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/target/debug/', 'file')
+        end,
+        cwd = '${workspaceFolder}',
+        stopOnEntry = false,
+      },
+    }
+
+    -- === neotest for Rust ===
+    local neotest = require 'neotest'
+    neotest.setup {
+      adapters = {
+        require 'neotest-rust',
+      },
+    }
+    vim.keymap.set('n', '<leader>tt', function()
+      neotest.run.run()
+    end, { desc = 'Run nearest test' })
+    vim.keymap.set('n', '<leader>tf', function()
+      neotest.run.run(vim.fn.expand '%')
+    end, { desc = 'Run file tests' })
+    vim.keymap.set('n', '<leader>to', function()
+      neotest.output.open { enter = true }
+    end, { desc = 'Show test output' })
   end,
 }

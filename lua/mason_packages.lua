@@ -5,5 +5,7 @@ return {
   'typescript-language-server',
   'csharp-language-server',
   'roslyn',
+  'rust-analyzer',
+  'codelldb',
   -- Add other packages here
 }
