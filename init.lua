@@ -327,4 +327,55 @@ vim.api.nvim_create_user_command('MasonInstallAll', MasonInstallAll, {})
 -- Optional: Bind the function to a keybinding (e.g., <leader>mi)
 vim.api.nvim_set_keymap('n', '<leader>mi', ':MasonInstallAll<CR>', { noremap = true, silent = true })
 -- The line beneath this is called `modeline`. See `:help modeline`
--- vim: ts=2 sts=2 sw=2 et
+-- vim: ts=2 sts=2 sw=2 eti
+
+-- Function to dump keymaps as Markdown
+local function dump_keymaps_md(filepath)
+  local modes = {
+    n = 'Normal',
+    i = 'Insert',
+    v = 'Visual',
+    x = 'Visual Block',
+    s = 'Select',
+    o = 'Operator-pending',
+    t = 'Terminal',
+    c = 'Command',
+  }
+
+  local lines = {}
+
+  for mode, name in pairs(modes) do
+    local maps = vim.api.nvim_get_keymap(mode)
+    if #maps > 0 then
+      table.insert(lines, '## ' .. name .. ' mode\n')
+      table.insert(lines, '| Key | Action | Description |')
+      table.insert(lines, '|-----|--------|-------------|')
+      for _, map in ipairs(maps) do
+        local lhs = map.lhs:gsub('|', '\\|')
+        local rhs = (map.rhs or (map.callback and '<Lua callback>') or ''):gsub('|', '\\|')
+        local desc = (map.desc or ''):gsub('|', '\\|')
+        table.insert(lines, string.format('| `%s` | `%s` | %s |', lhs, rhs, desc))
+      end
+      table.insert(lines, '\n')
+    end
+  end
+
+  if filepath then
+    local f = io.open(filepath, 'w')
+    if f then
+      f:write(table.concat(lines, '\n'))
+      f:close()
+      print('Keymaps dumped to ' .. filepath)
+    else
+      print('Could not open file: ' .. filepath)
+    end
+  else
+    -- Print to command output if no file is given
+    print(table.concat(lines, '\n'))
+  end
+end
+
+-- Create user command :DumpKeymapsMd [filepath]
+vim.api.nvim_create_user_command('DumpKeymapsMd', function(opts)
+  dump_keymaps_md(opts.args ~= '' and opts.args or nil)
+end, { nargs = '?' })

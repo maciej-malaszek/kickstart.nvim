@@ -5,7 +5,7 @@ return {
   'typescript-language-server',
   'csharp-language-server',
   'roslyn',
-  'rust-analyzer',
+  --  'rust-analyzer', -- done by rustaceanvim
   'codelldb',
   -- Add other packages here
 }
