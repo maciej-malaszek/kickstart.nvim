@@ -3,11 +3,11 @@ return {
   dependencies = {
     'nvim-neotest/nvim-nio',
     'rcarriga/nvim-dap-ui',
-    'williamboman/mason.nvim',
     'jay-babu/mason-nvim-dap.nvim',
     'rouge8/neotest-rust',
     'nvim-neotest/neotest',
   },
+  priority = 750,
   config = function()
     local dap, dapui = require 'dap', require 'dapui'
 

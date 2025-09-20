@@ -1,4 +1,45 @@
 return {
+
+  {
+    'VonHeikemen/searchbox.nvim',
+    config = function()
+      vim.keymap.set('n', '<C-f>', ':SearchBoxIncSearch<CR>')
+      vim.keymap.set('n', '<C-h>', ':SearchBoxReplace<CR>')
+    end,
+  },
+  'NMAC427/guess-indent.nvim', -- Detect tabstop and shiftwidth automatically
+  {
+    -- Detect tabstop and shiftwidth automatically
+    'tpope/vim-sleuth',
+  },
+  {
+    -- Powerful Git integration for Vim
+    'tpope/vim-fugitive',
+  },
+  {
+    -- GitHub integration for vim-fugitive
+    'tpope/vim-rhubarb',
+  },
+  {
+    'folke/todo-comments.nvim',
+    event = 'VimEnter',
+    dependencies = { 'nvim-lua/plenary.nvim' },
+    opts = { signs = true },
+  },
+  {
+    -- Autoclose parentheses, brackets, quotes, etc.
+    'windwp/nvim-autopairs',
+    event = 'InsertEnter',
+    config = true,
+    opts = {},
+  },
+  {
+    -- High-performance color highlighter
+    'norcalli/nvim-colorizer.lua',
+    config = function()
+      require('colorizer').setup()
+    end,
+  },
   { -- Collection of various small independent plugins/modules
     'echasnovski/mini.nvim',
     config = function()
@@ -57,24 +98,42 @@ return {
         -- idle time if user input is required.
         silent = false,
       }
-
-      -- Simple and easy statusline.
-      --  You could remove this setup call if you don't like it,
-      --  and try some other statusline plugin
-      local statusline = require 'mini.statusline'
-      -- set use_icons to true if you have a Nerd Font
-      statusline.setup { use_icons = vim.g.have_nerd_font }
-
-      -- You can configure sections in the statusline by overriding their
-      -- default behavior. For example, here we set the section for
-      -- cursor location to LINE:COLUMN
-      ---@diagnostic disable-next-line: duplicate-set-field
-      statusline.section_location = function()
-        return '%2l:%-2v'
-      end
-
-      -- ... and there is more!
-      --  Check out: https://github.com/echasnovski/mini.nvim
+    end,
+  },
+  {
+    'doctorfree/cheatsheet.nvim',
+    event = 'VeryLazy',
+    dependencies = {
+      { 'nvim-telescope/telescope.nvim' },
+      { 'nvim-lua/popup.nvim' },
+      { 'nvim-lua/plenary.nvim' },
+    },
+    config = function()
+      local ctactions = require 'cheatsheet.telescope.actions'
+      require('cheatsheet').setup {
+        bundled_cheetsheets = {
+          enabled = { 'default', 'lua', 'markdown', 'regex', 'netrw', 'unicode' },
+          disabled = { 'nerd-fonts' },
+        },
+        bundled_plugin_cheatsheets = {
+          enabled = {
+            'auto-session',
+            'goto-preview',
+            'octo.nvim',
+            'telescope.nvim',
+            'vim-easy-align',
+            'vim-sandwich',
+          },
+          disabled = { 'gitsigns' },
+        },
+        include_only_installed_plugins = true,
+        telescope_mappings = {
+          ['<CR>'] = ctactions.select_or_fill_commandline,
+          ['<A-CR>'] = ctactions.select_or_execute,
+          ['<C-Y>'] = ctactions.copy_cheat_value,
+          ['<C-E>'] = ctactions.edit_user_cheatsheet,
+        },
+      }
     end,
   },
 }

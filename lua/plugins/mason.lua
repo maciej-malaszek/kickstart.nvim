@@ -1,6 +1,6 @@
 return {
   {
-    'williamboman/mason.nvim',
+    'mason-org/mason.nvim',
     opts = {
       registries = {
         'github:mason-org/mason-registry',
@@ -21,4 +21,6 @@ return {
       },
     },
   },
+  'mason-org/mason-lspconfig.nvim',
+  'WhoIsSethDaniel/mason-tool-installer.nvim',
 }
