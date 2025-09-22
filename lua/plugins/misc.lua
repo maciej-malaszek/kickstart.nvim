@@ -4,7 +4,7 @@ return {
     'VonHeikemen/searchbox.nvim',
     config = function()
       vim.keymap.set('n', '<C-f>', ':SearchBoxIncSearch<CR>')
-      vim.keymap.set('n', '<C-h>', ':SearchBoxReplace<CR>')
+      vim.keymap.set('n', '<C-H>', ':SearchBoxReplace<CR>')
     end,
   },
   'NMAC427/guess-indent.nvim', -- Detect tabstop and shiftwidth automatically
