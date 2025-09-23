@@ -12,22 +12,20 @@ return {
     local dap, dapui = require 'dap', require 'dapui'
 
     -- === General Keymaps ===
-    vim.keymap.set('n', 'q', function()
+    vim.keymap.set('n', '<leader>dq', function()
       dap.terminate()
       dap.clear_breakpoints()
     end, { desc = 'Terminate and clear breakpoints' })
 
-    vim.keymap.set('n', '<F5>', dap.continue, { desc = 'Start/continue debugging' })
-    vim.keymap.set('n', '<F10>', dap.step_over, { desc = 'Step over' })
-    vim.keymap.set('n', '<F11>', dap.step_into, { desc = 'Step into' })
-    vim.keymap.set('n', '<F12>', dap.step_out, { desc = 'Step out' })
-    vim.keymap.set('n', '<leader>b', dap.toggle_breakpoint, { desc = 'Toggle breakpoint' })
-    vim.keymap.set('n', '<leader>dO', dap.step_over, { desc = 'Step over (alt)' })
-    vim.keymap.set('n', '<leader>dC', dap.run_to_cursor, { desc = 'Run to cursor' })
-    vim.keymap.set('n', '<leader>dr', dap.repl.toggle, { desc = 'Toggle DAP REPL' })
+    vim.keymap.set('n', '<leader>dc', dap.continue, { desc = 'Start/[c]ontinue debugging' })
+    vim.keymap.set('n', '<leader>dn', dap.step_over, { desc = 'Step over ([n]ext)' })
+    vim.keymap.set('n', '<leader>di', dap.step_into, { desc = 'Step [i]nto' })
+    vim.keymap.set('n', '<leader>do', dap.step_out, { desc = 'Step [o]ut' })
+    vim.keymap.set('n', '<leader>db', dap.toggle_breakpoint, { desc = 'Toggle [b]reakpoint' })
+    vim.keymap.set('n', '<leader>dC', dap.run_to_cursor, { desc = 'Run to [c]ursor' })
+    vim.keymap.set('n', '<leader>dr', dap.repl.toggle, { desc = 'Toggle DAP [R]EPL' })
     vim.keymap.set('n', '<leader>dj', dap.down, { desc = 'Go down stack frame' })
     vim.keymap.set('n', '<leader>dk', dap.up, { desc = 'Go up stack frame' })
-
     dapui.setup()
 
     -- Auto open/close
@@ -134,14 +132,14 @@ return {
         require 'neotest-rust',
       },
     }
-    vim.keymap.set('n', '<leader>tt', function()
+    vim.keymap.set('n', '<leader>tr', function()
       neotest.run.run()
-    end, { desc = 'Run nearest test' })
+    end, { desc = 'Run nearest [t]est' })
     vim.keymap.set('n', '<leader>tf', function()
       neotest.run.run(vim.fn.expand '%')
-    end, { desc = 'Run file tests' })
+    end, { desc = 'Run [f]ile tests' })
     vim.keymap.set('n', '<leader>to', function()
       neotest.output.open { enter = true }
-    end, { desc = 'Show test output' })
+    end, { desc = 'Show test [o]utput' })
   end,
 }

@@ -9,7 +9,7 @@ vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
 vim.keymap.set('n', '<C-s>', '<cmd> w <CR>', { noremap = true, silent = true, desc = 'Save file' })
 
 -- save file without auto-formatting
-vim.keymap.set('n', '<leader>sn', '<cmd>noautocmd w <CR>', { noremap = true, silent = true, desc = 'Save file without auto-formatting' })
+vim.keymap.set('n', '<C-S-s>', '<cmd>noautocmd w <CR>', { noremap = true, silent = true, desc = 'Save file without auto-formatting' })
 
 -- quit file
 vim.keymap.set('n', '<C-q>', '<cmd> q <CR>', { noremap = true, silent = true })
@@ -17,8 +17,8 @@ vim.keymap.set('n', '<C-q>', '<cmd> q <CR>', { noremap = true, silent = true })
 -- Buffers
 vim.keymap.set('n', '<Tab>', ':bnext<CR>', { noremap = true, silent = true, desc = 'Next buffer' })
 vim.keymap.set('n', '<S-Tab>', ':bprevious<CR>', { noremap = true, silent = true, desc = 'Previous buffer' })
-vim.keymap.set('n', '<leader>x', ':bdelete!<CR>', { noremap = true, silent = true, desc = 'Close buffer' }) -- close buffer
-vim.keymap.set('n', '<leader>b', '<cmd> enew <CR>', { noremap = true, silent = true, desc = 'New bu' }) -- new buffer
+vim.keymap.set('n', '<leader>bq', ':bdelete!<CR>', { noremap = true, silent = true, desc = 'Close buffer' }) -- close buffer
+vim.keymap.set('n', '<leader>bn', '<cmd> enew <CR>', { noremap = true, silent = true, desc = 'New buffer' }) -- new buffer
 
 -- Resize with arrows
 vim.keymap.set('n', '<S-Up>', ':resize -2<CR>', { noremap = true, silent = true })
@@ -27,10 +27,10 @@ vim.keymap.set('n', '<S-Left>', ':vertical resize -2<CR>', { noremap = true, sil
 vim.keymap.set('n', '<S-Right>', ':vertical resize +2<CR>', { noremap = true, silent = true })
 
 -- Window management
-vim.keymap.set('n', '<leader>v', '<C-w>v', { noremap = true, silent = true }) -- split window vertically
-vim.keymap.set('n', '<leader>h', '<C-w>s', { noremap = true, silent = true }) -- split window horizontally
-vim.keymap.set('n', '<leader>se', '<C-w>=', { noremap = true, silent = true }) -- make split windows equal width & height
-vim.keymap.set('n', '<leader>xs', ':close<CR>', { noremap = true, silent = true }) -- close current split window
+vim.keymap.set('n', '<leader>wv', '<C-w>v', { noremap = true, silent = true }) -- split window vertically
+vim.keymap.set('n', '<leader>wh', '<C-w>s', { noremap = true, silent = true }) -- split window horizontally
+vim.keymap.set('n', '<leader>wse', '<C-w>=', { noremap = true, silent = true }) -- make split windows equal width & height
+vim.keymap.set('n', '<leader>wq', ':close<CR>', { noremap = true, silent = true }) -- close current split window
 
 -- Navigate between splits
 vim.keymap.set('n', '<C-h>', '<C-w><C-h>', { desc = 'Move focus to the left window' })
@@ -47,9 +47,6 @@ vim.keymap.set('n', '<leader>tp', ':tabp<CR>', { noremap = true, silent = true }
 -- Stay in indent mode
 vim.keymap.set('v', '<', '<gv', { noremap = true, silent = true })
 vim.keymap.set('v', '>', '>gv', { noremap = true, silent = true })
-
--- Toggle line wrapping
-vim.keymap.set('n', '<leader>lw', '<cmd>set wrap!<CR>', { noremap = true, silent = true })
 
 -- Keep last yanked when pasting
 vim.keymap.set('v', 'p', '"_dP', { noremap = true, silent = true })
@@ -74,6 +71,6 @@ vim.keymap.set('n', '<leader>d', vim.diagnostic.open_float, { desc = 'Open float
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
 
 -- Optional: Bind the function to a keybinding (e.g., <leader>mi)
-vim.api.nvim_set_keymap('n', '<leader>mi', ':MasonInstallAll<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<leader>pmi', ':MasonInstallAll<CR>', { desc = '[M]ason [I]nstall All', noremap = true, silent = true })
 -- Toggle line wrapping
-vim.keymap.set('n', '<leader>lw', '<cmd>set wrap!<CR>', { noremap = true, silent = true })
+vim.keymap.set('n', '<leader>cw', '<cmd>set wrap!<CR>', { noremap = true, silent = true })
