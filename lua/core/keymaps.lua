@@ -39,10 +39,10 @@ vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower win
 vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
 
 -- Tabs
-vim.keymap.set('n', '<leader>to', ':tabnew<CR>', { noremap = true, silent = true }) -- open new tab
-vim.keymap.set('n', '<leader>tx', ':tabclose<CR>', { noremap = true, silent = true }) -- close current tab
-vim.keymap.set('n', '<leader>tn', ':tabn<CR>', { noremap = true, silent = true }) --  go to next tab
-vim.keymap.set('n', '<leader>tp', ':tabp<CR>', { noremap = true, silent = true }) --  go to previous tab
+vim.keymap.set('n', '<leader>Wo', ':tabnew<CR>', { noremap = true, silent = true }) -- open new tab
+vim.keymap.set('n', '<leader>Wx', ':tabclose<CR>', { noremap = true, silent = true }) -- close current tab
+vim.keymap.set('n', '<leader>Wn', ':tabn<CR>', { noremap = true, silent = true }) --  go to next tab
+vim.keymap.set('n', '<leader>Wp', ':tabp<CR>', { noremap = true, silent = true }) --  go to previous tab
 
 -- Stay in indent mode
 vim.keymap.set('v', '<', '<gv', { noremap = true, silent = true })
@@ -67,8 +67,8 @@ vim.keymap.set('n', ']d', function()
   vim.diagnostic.jump { count = 1, float = true }
 end, { desc = 'Go to next diagnostic message' })
 
-vim.keymap.set('n', '<leader>d', vim.diagnostic.open_float, { desc = 'Open floating diagnostic message' })
-vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
+vim.keymap.set('n', '<leader>if', vim.diagnostic.open_float, { desc = 'Issues: Open [f]loating diagnostic message' })
+vim.keymap.set('n', '<leader>cq', vim.diagnostic.setloclist, { desc = 'Code: Open diagnostic [Q]uickfix list' })
 
 -- Optional: Bind the function to a keybinding (e.g., <leader>mi)
 vim.api.nvim_set_keymap('n', '<leader>pmi', ':MasonInstallAll<CR>', { desc = '[M]ason [I]nstall All', noremap = true, silent = true })

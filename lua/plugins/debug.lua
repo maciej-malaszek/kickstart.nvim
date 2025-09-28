@@ -11,6 +11,71 @@ return {
   config = function()
     local dap, dapui = require 'dap', require 'dapui'
 
+    vim.fn.sign_define('DapBreakpoint', {
+      text = '🔴',
+      texthl = 'DapBreakpointSymbol',
+      linehl = 'DapBreakpoint',
+      numhl = 'DapBreakpoint',
+    })
+
+    vim.fn.sign_define('DapStopped', {
+      text = '⭕',
+      texthl = 'yellow',
+      linehl = 'DapBreakpoint',
+      numhl = 'DapBreakpoint',
+    })
+    vim.fn.sign_define('DapBreakpointRejected', {
+      text = '⚪',
+      texthl = 'DapStoppedSymbol',
+      linehl = 'DapBreakpoint',
+      numhl = 'DapBreakpoint',
+    })
+
+    dapui.setup {
+      expand_lines = true,
+      controls = { enabled = true },
+      floating = { border = 'single' },
+
+      -- Only one layout: just the "scopes" (variables) list at the bottom
+      layouts = {
+        {
+          elements = {
+            {
+              id = 'scopes',
+              size = 0.25,
+            },
+            {
+              id = 'breakpoints',
+              size = 0.25,
+            },
+            {
+              id = 'stacks',
+              size = 0.25,
+            },
+            {
+              id = 'watches',
+              size = 0.25,
+            },
+          },
+          position = 'left',
+          size = 40,
+        },
+        {
+          elements = {
+            {
+              id = 'repl',
+              size = 0.5,
+            },
+            {
+              id = 'console',
+              size = 0.5,
+            },
+          },
+          position = 'bottom',
+          size = 10,
+        },
+      },
+    }
     -- === General Keymaps ===
     vim.keymap.set('n', '<leader>dq', function()
       dap.terminate()
@@ -26,17 +91,20 @@ return {
     vim.keymap.set('n', '<leader>dr', dap.repl.toggle, { desc = 'Toggle DAP [R]EPL' })
     vim.keymap.set('n', '<leader>dj', dap.down, { desc = 'Go down stack frame' })
     vim.keymap.set('n', '<leader>dk', dap.up, { desc = 'Go up stack frame' })
-    dapui.setup()
 
     -- Auto open/close
     dap.listeners.after.event_initialized['dapui_config'] = function()
+      vim.cmd.Neotree 'close'
       dapui.open()
     end
     dap.listeners.before.event_terminated['dapui_config'] = function()
       dapui.close()
+      vim.cmd.Neotree()
     end
     dap.listeners.before.event_exited['dapui_config'] = function()
       dapui.close()
+
+      vim.cmd.Neotree()
     end
 
     -- Keymap to toggle manually

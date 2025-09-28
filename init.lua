@@ -33,4 +33,6 @@ require('lazy').setup {
   require 'plugins.misc',
   require 'plugins.roslyn',
   require 'plugins.rust-tools',
+  require 'plugins.debug',
+  require 'plugins.trouble',
 }
