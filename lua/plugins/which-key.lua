@@ -60,6 +60,8 @@ return {
         { '<leader>b', group = '[B]uffer', mode = { 'n' } },
         { '<leader>W', group = '[W]orkspaces', mode = { 'n' } },
         { '<leader>w', group = '[W]indows', mode = { 'n' } },
+        { '<leader>r', group = '[R]un', mode = { 'n' } },
+        { '<leader>a', group = '[A]I', mode = { 'n' } },
       },
     },
   },

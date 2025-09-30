@@ -35,4 +35,8 @@ require('lazy').setup {
   require 'plugins.rust-tools',
   require 'plugins.debug',
   require 'plugins.trouble',
+  require 'plugins.edgy',
+  require 'plugins.toggleterm',
+  require 'plugins.copilot',
+  require 'plugins.sonarqube',
 }

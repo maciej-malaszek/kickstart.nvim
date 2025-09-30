@@ -37,6 +37,31 @@ return {
       cond = hide_in_width,
     }
 
+    -- 🚀 Copilot component (pure Lua)
+    local copilot = {
+      function()
+        local ok, status = pcall(require, 'copilot.status')
+        if not ok then
+          return ''
+        end
+        local clients = vim.lsp.get_clients { name = 'copilot', bufnr = 0 }
+        if #clients == 0 then
+          return ''
+        end
+        local cstatus = status.data.status
+        if cstatus == 'InProgress' then
+          return ' pending'
+        elseif cstatus == 'Warning' then
+          return ' error'
+        else
+          return ' ok'
+        end
+      end,
+      cond = function()
+        return package.loaded['copilot'] ~= nil
+      end,
+    }
+
     require('lualine').setup {
       options = {
         icons_enabled = true,
@@ -53,7 +78,14 @@ return {
         lualine_a = { mode },
         lualine_b = { 'branch' },
         lualine_c = { filename },
-        lualine_x = { diagnostics, diff, { 'encoding', cond = hide_in_width }, { 'filetype', cond = hide_in_width } },
+        lualine_x = {
+          diagnostics,
+          diff,
+          { 'encoding', cond = hide_in_width },
+          { 'filetype', cond = hide_in_width },
+          -- 🚀 Copilot status indicator
+          copilot,
+        },
         lualine_y = { 'location' },
         lualine_z = { 'progress' },
       },

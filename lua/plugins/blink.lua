@@ -44,6 +44,7 @@ return {
           },
         },
       },
+      'fang2hou/blink-copilot',
     },
     --- @module 'blink.cmp'
     --- @type blink.cmp.Config
@@ -89,8 +90,14 @@ return {
       },
 
       sources = {
-        default = { 'lsp', 'path', 'snippets', 'lazydev', 'easy-dotnet', 'buffer' }, --
+        default = { 'lsp', 'path', 'snippets', 'lazydev', 'easy-dotnet', 'buffer', 'copilot' }, --
         providers = {
+          copilot = {
+            name = 'copilot',
+            module = 'blink-copilot',
+            score_offset = 100,
+            async = true,
+          },
           lazydev = { module = 'lazydev.integrations.blink', score_offset = 100 },
           ['easy-dotnet'] = {
             name = 'easy-dotnet',
