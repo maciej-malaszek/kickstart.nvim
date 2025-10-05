@@ -24,7 +24,7 @@ require('lazy').setup {
   require 'plugins.lualine',
   require 'plugins.treesitter',
   require 'plugins.telescope',
-  require 'plugins.easy-dotnet',
+  -- require 'plugins.easy-dotnet',
   require 'plugins.blink',
   require 'plugins.lsp',
   require 'plugins.autoformatting',

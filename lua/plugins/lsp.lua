@@ -215,6 +215,7 @@ return {
         terraformls = {},
         jsonls = {},
         yamlls = {},
+        roslyn = {},
         lua_ls = {
           settings = {
             Lua = {

@@ -51,6 +51,48 @@ return {
       --  - ci'  - [C]hange [I]nside [']quote
       require('mini.ai').setup { n_lines = 500 }
 
+      require('mini.comment').setup {
+        -- Options which control module behavior
+        options = {
+          -- Function to compute custom 'commentstring' (optional)
+          custom_commentstring = nil,
+
+          -- Whether to ignore blank lines when commenting
+          ignore_blank_line = true,
+
+          -- Whether to ignore blank lines in actions and textobject
+          start_of_line = false,
+
+          -- Whether to force single space inner padding for comment parts
+          pad_comment_parts = true,
+        },
+
+        -- Module mappings. Use `''` (empty string) to disable one.
+        mappings = {
+          -- Toggle comment (like `gcip` - comment inner paragraph) for both
+          -- Normal and Visual modes
+          comment = '<leader>cc',
+
+          -- Toggle comment on current line
+          comment_line = '<C-k>',
+
+          -- Toggle comment on visual selection
+          comment_visual = '<C-k>',
+
+          -- Define 'comment' textobject (like `dgc` - delete whole comment block)
+          -- Works also in Visual mode if mapping differs from `comment_visual`
+          textobject = '<leader>cc',
+        },
+
+        -- Hook functions to be executed at certain stage of commenting
+        hooks = {
+          -- Before successful commenting. Does nothing by default.
+          pre = function() end,
+          -- After successful commenting. Does nothing by default.
+          post = function() end,
+        },
+      }
+
       -- Add/delete/replace surroundings (brackets, quotes, etc.)
       --
       -- - saiw) - [S]urround [A]dd [I]nner [W]ord [)]Paren
@@ -148,7 +190,30 @@ return {
       -- OPTIONAL:
       --   `nvim-notify` is only needed, if you want to use the notification view.
       --   If not available, we use `mini` as the fallback
-      'rcarriga/nvim-notify',
+      {
+        'rcarriga/nvim-notify',
+        opts = {
+          background_colour = '#000000',
+          fps = 30,
+          icons = {
+            DEBUG = '',
+            ERROR = '',
+            INFO = '',
+            TRACE = '✎',
+            WARN = '',
+          },
+          level = 2,
+          minimum_width = 50,
+          render = 'default',
+          stages = 'fade_in_slide_out',
+          time_formats = {
+            notification = '%T',
+            notification_history = '%FT%T',
+          },
+          timeout = 5000,
+          top_down = true,
+        },
+      },
     },
   },
   {
@@ -157,5 +222,9 @@ return {
     opts = {},
     name = 'render-markdown', -- Only needed if you have another plugin named markdown.nvim
     dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-tree/nvim-web-devicons' }, -- if you prefer nvim-web-devicons
+  },
+  {
+    'ramboe/ramboe-dotnet-utils',
+    dependencies = { 'mfussenegger/nvim-dap' },
   },
 }
