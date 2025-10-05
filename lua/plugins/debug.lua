@@ -167,7 +167,6 @@ return {
   },
   priority = 750,
   config = function()
-    -- local dap, dapui = require 'dap', require 'dapui
     local dap = require 'dap'
 
     vim.fn.sign_define('DapBreakpoint', {
@@ -294,6 +293,8 @@ return {
 
     dap.adapters.netcoredbg = netcoredbg_adapter -- needed for normal debugging
     dap.adapters.coreclr = netcoredbg_adapter -- needed for unit test debugging
+    require('easy-dotnet.netcoredbg').register_dap_variables_viewer() -- special variables viewer specific for .NET
+
     dap.configurations.cs = {
       {
         type = 'coreclr',

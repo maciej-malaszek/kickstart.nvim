@@ -74,10 +74,10 @@ return {
           comment = '<leader>cc',
 
           -- Toggle comment on current line
-          comment_line = '<C-k>',
+          comment_line = '<C-/>',
 
           -- Toggle comment on visual selection
-          comment_visual = '<C-k>',
+          comment_visual = '<C-/>',
 
           -- Define 'comment' textobject (like `dgc` - delete whole comment block)
           -- Works also in Visual mode if mapping differs from `comment_visual`

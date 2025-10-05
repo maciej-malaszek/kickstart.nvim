@@ -245,6 +245,7 @@ return {
             ['on'] = { 'order_by_name', nowait = false },
             ['os'] = { 'order_by_size', nowait = false },
             ['ot'] = { 'order_by_type', nowait = false },
+            ['e'] = 'easy',
           },
           fuzzy_finder_mappings = { -- define keymaps for filter popup window in fuzzy_finder_mode
             ['<down>'] = 'move_cursor_down',
@@ -254,7 +255,15 @@ return {
           },
         },
 
-        commands = {}, -- Add a custom command or override a global one using the same function name
+        commands = {
+          ['easy'] = function(state)
+            local node = state.tree:get_node()
+            local path = node.type == 'directory' and node.path or vim.fs.dirname(node.path)
+            require('easy-dotnet').create_new_item(path, function()
+              require('neo-tree.sources.manager').refresh(state.name)
+            end)
+          end,
+        }, -- Add a custom command or override a global one using the same function name
       },
       buffers = {
         follow_current_file = {
@@ -303,11 +312,11 @@ return {
     }
 
     vim.cmd [[nnoremap \ :Neotree reveal<cr>]]
-   -- Neo-tree
-    vim.keymap.set("n", "<leader>ee", "<cmd>Neotree toggle position=left<CR>", { desc = "Explorer (files)" })
-    vim.keymap.set("n", "<leader>eg", "<cmd>Neotree float git_status<CR>", { desc = "Explorer (git)" })
-    vim.keymap.set("n", "<leader>eb", "<cmd>Neotree float buffers<CR>", { desc = "Explorer (buffers)" })
-    vim.keymap.set("n", "<leader>ef", "<cmd>Neotree focus<CR>", { desc = "Explorer (focus)" })
-    vim.keymap.set("n", "<leader>ec", "<cmd>Neotree close<CR>", { desc = "Explorer (close)" })
+    -- Neo-tree
+    vim.keymap.set('n', '<leader>ee', '<cmd>Neotree toggle position=left<CR>', { desc = 'Explorer (files)' })
+    vim.keymap.set('n', '<leader>eg', '<cmd>Neotree float git_status<CR>', { desc = 'Explorer (git)' })
+    vim.keymap.set('n', '<leader>eb', '<cmd>Neotree float buffers<CR>', { desc = 'Explorer (buffers)' })
+    vim.keymap.set('n', '<leader>ef', '<cmd>Neotree focus<CR>', { desc = 'Explorer (focus)' })
+    vim.keymap.set('n', '<leader>ec', '<cmd>Neotree close<CR>', { desc = 'Explorer (close)' })
   end,
 }

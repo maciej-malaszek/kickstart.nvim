@@ -19,10 +19,22 @@ return { -- lazy.nvim
       end
       local dotnet = require 'easy-dotnet'
       dotnet.setup {
+        lsp = {
+          enabled = false, -- Enable builtin roslyn lsp
+          roslynator_enabled = true, -- Automatically enable roslynator analyzer
+          analyzer_assemblies = {}, -- Any additional roslyn analyzers you might use like SonarAnalyzer.CSharp
+        },
+        debugger = {
+          -- The path to netcoredbg executable
+          bin_path = 'netcoredbg',
+          auto_register_dap = true,
+          mappings = {
+            open_variable_viewer = { lhs = 'T', desc = 'open variable viewer' },
+          },
+        },
         --Optional function to return the path for the dotnet sdk (e.g C:/ProgramFiles/dotnet/sdk/8.0.0)
         -- easy-dotnet will resolve the path automatically if this argument is omitted, for a performance improvement you can add a function that returns a hardcoded string
         -- You should define this function to return a hardcoded path for a performance improvement 🚀
-        get_sdk_path = get_sdk_path,
         ---@type TestRunnerOptions
         test_runner = {
           ---@type "split" | "vsplit" | "float" | "buf"
@@ -120,11 +132,6 @@ return { -- lazy.nvim
         -- telescope -> fzf -> snacks ->  basic
         picker = 'telescope',
         background_scanning = true,
-        debugger = {
-          mappings = {
-            open_variable_viewer = { lhs = 'T', desc = 'open variable viewer' },
-          },
-        },
       }
       -- Example command
       vim.api.nvim_create_user_command('Secrets', function()
