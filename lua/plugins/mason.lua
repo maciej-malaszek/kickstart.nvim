@@ -8,8 +8,8 @@ return {
       },
       ensure_installed = {
         'lua-language-server',
-        'csharp-language-server',
-        'omnisharp',
+        -- 'csharp-language-server',
+        -- 'omnisharp',
         'xmlformatter',
         'stylua',
         'bicep-lsp',
