@@ -50,7 +50,7 @@ return {
       --  - yinq - [Y]ank [I]nside [N]ext [Q]uote
       --  - ci'  - [C]hange [I]nside [']quote
       require('mini.ai').setup { n_lines = 500 }
-
+      require 'mini.bufremove'
       require('mini.comment').setup {
         -- Options which control module behavior
         options = {
@@ -226,5 +226,8 @@ return {
   {
     'ramboe/ramboe-dotnet-utils',
     dependencies = { 'mfussenegger/nvim-dap' },
+  },
+  {
+    'moll/vim-bbye',
   },
 }

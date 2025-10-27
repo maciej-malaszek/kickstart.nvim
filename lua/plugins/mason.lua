@@ -8,6 +8,7 @@ return {
       },
       ensure_installed = {
         'lua-language-server',
+        'bash-language-server',
         -- 'csharp-language-server',
         -- 'omnisharp',
         'xmlformatter',

@@ -23,6 +23,7 @@ return {
         'rust',
         'javascript',
         'typescript',
+        'hcl',
         'terraform',
         'sql',
         'dockerfile',

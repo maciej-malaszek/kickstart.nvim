@@ -9,5 +9,6 @@ return {
   --  'rust-analyzer', -- done by rustaceanvim
   'codelldb',
   'netcoredbg',
+  'tflint',
   -- Add other packages here
 }

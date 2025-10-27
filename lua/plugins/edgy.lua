@@ -22,7 +22,7 @@ return {
       { ft = 'qf', title = 'QuickFix' },
       {
         ft = 'help',
-        size = { height = 20 },
+        size = { height = 100 },
         -- don't open help files in edgy that we're editing
         filter = function(buf)
           return vim.bo[buf].buftype == 'help'
@@ -39,7 +39,7 @@ return {
       {
         ft = 'copilot-chat',
         title = 'Copilot Chat',
-        size = { width = 50 },
+        size = { width = 250 },
       },
     }, ---@type (Edgy.View.Opts|string)[]
     top = {}, ---@type (Edgy.View.Opts|string)[]
