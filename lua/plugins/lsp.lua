@@ -217,6 +217,7 @@ return {
         jsonls = {},
         yamlls = {},
         roslyn = {},
+        clangd = {},
         lua_ls = {
           settings = {
             Lua = {

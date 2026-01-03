@@ -19,6 +19,7 @@ return {
         'csharpier',
         'prettier',
         'json-lsp',
+        'clangd',
       },
     },
   },
